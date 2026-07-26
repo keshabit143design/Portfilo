@@ -1,0 +1,534 @@
+/* ==========================================================================
+   MISSION CONTROL — SMART SURVEY ROBOT — animations.css
+   --------------------------------------------------------------------------
+   Animation library · Keyframes + utility classes
+   Requires: css/variables.css (motion + color tokens)
+
+   USAGE
+   Apply utility classes from JavaScript or markup:
+       element.classList.add("anim-fade-in");
+   Entrance utilities auto-remove visually by ending at rest state
+   (forwards fill). Looping utilities run until the class is removed.
+
+   Stagger children with .anim-stagger on a parent.
+   ==========================================================================
+
+   TABLE OF CONTENTS
+   01. Fade
+   02. Slide
+   03. Scale
+   04. Glow
+   05. Pulse
+   06. Robot Online Sequence
+   07. Notification Animations
+   08. Loading Animations (spinner / dots / bar / scanline / skeleton)
+   09. Attention & Feedback (shake, blink, flicker)
+   10. Stagger & Page-Load Choreography
+   11. Reduced Motion Guard
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. FADE
+   ========================================================================== */
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-down {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.anim-fade-in      { animation: fade-in      var(--dur-slow)   var(--ease-smooth) both; }
+.anim-fade-out     { animation: fade-out     var(--dur-normal) var(--ease-smooth) both; }
+.anim-fade-in-up   { animation: fade-in-up   var(--dur-slow)   var(--ease-smooth) both; }
+.anim-fade-in-down { animation: fade-in-down var(--dur-slow)   var(--ease-smooth) both; }
+
+
+/* ==========================================================================
+   02. SLIDE
+   ========================================================================== */
+
+@keyframes slide-in-left {
+    from { opacity: 0; transform: translateX(-28px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(28px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-down {
+    from { opacity: 0; transform: translateY(-28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-out-right {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(32px); }
+}
+
+.anim-slide-in-left   { animation: slide-in-left   var(--dur-slow)   var(--ease-smooth) both; }
+.anim-slide-in-right  { animation: slide-in-right  var(--dur-slow)   var(--ease-smooth) both; }
+.anim-slide-in-up     { animation: slide-in-up     var(--dur-slow)   var(--ease-smooth) both; }
+.anim-slide-in-down   { animation: slide-in-down   var(--dur-slow)   var(--ease-smooth) both; }
+.anim-slide-out-right { animation: slide-out-right var(--dur-normal) var(--ease-smooth) both; }
+
+
+/* ==========================================================================
+   03. SCALE
+   ========================================================================== */
+
+@keyframes scale-in {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes scale-out {
+    from { opacity: 1; transform: scale(1); }
+    to   { opacity: 0; transform: scale(0.9); }
+}
+
+@keyframes pop-in {
+    0%   { opacity: 0; transform: scale(0.6); }
+    70%  { opacity: 1; transform: scale(1.06); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.04); }
+}
+
+.anim-scale-in { animation: scale-in var(--dur-normal) var(--ease-spring)  both; }
+.anim-scale-out{ animation: scale-out var(--dur-normal) var(--ease-smooth) both; }
+.anim-pop-in   { animation: pop-in   var(--dur-slow)   var(--ease-spring)  both; }
+.anim-breathe  { animation: breathe  3.2s var(--ease-smooth) infinite; }
+
+
+/* ==========================================================================
+   04. GLOW
+   ========================================================================== */
+
+@keyframes glow-cyan {
+    0%, 100% { box-shadow: 0 0 8px  var(--clr-cyan-glow); }
+    50%      { box-shadow: 0 0 26px var(--clr-cyan-glow), 0 0 46px var(--clr-cyan-glow); }
+}
+
+@keyframes glow-primary {
+    0%, 100% { box-shadow: 0 0 8px  var(--clr-primary-glow); }
+    50%      { box-shadow: 0 0 26px var(--clr-primary-glow), 0 0 46px var(--clr-primary-glow); }
+}
+
+@keyframes glow-danger {
+    0%, 100% { box-shadow: 0 0 6px  var(--clr-danger-glow); }
+    50%      { box-shadow: 0 0 22px var(--clr-danger-glow), 0 0 38px var(--clr-danger-glow); }
+}
+
+@keyframes glow-text {
+    0%, 100% { text-shadow: 0 0 6px  var(--clr-cyan-glow); }
+    50%      { text-shadow: 0 0 18px var(--clr-cyan-glow), 0 0 32px var(--clr-cyan-glow); }
+}
+
+.anim-glow-cyan    { animation: glow-cyan    2.4s var(--ease-smooth) infinite; }
+.anim-glow-primary { animation: glow-primary 2.4s var(--ease-smooth) infinite; }
+.anim-glow-danger  { animation: glow-danger  1.4s var(--ease-smooth) infinite; }
+.anim-glow-text    { animation: glow-text    2.4s var(--ease-smooth) infinite; }
+
+
+/* ==========================================================================
+   05. PULSE
+   ========================================================================== */
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1);    opacity: 1; }
+    50%      { transform: scale(1.12); opacity: 0.65; }
+}
+
+@keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+}
+
+/* Expanding sonar ring — best on small round elements (dots, avatars) */
+@keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0    var(--clr-cyan-glow); }
+    70%  { box-shadow: 0 0 0 14px rgba(0, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0    rgba(0, 0, 0, 0); }
+}
+
+.anim-pulse      { animation: pulse      1.8s var(--ease-smooth) infinite; }
+.anim-pulse-soft { animation: pulse-soft 2.2s var(--ease-smooth) infinite; }
+.anim-pulse-ring { animation: pulse-ring 1.8s var(--ease-smooth) infinite; }
+
+
+/* ==========================================================================
+   06. ROBOT ONLINE SEQUENCE
+   --------------------------------------------------------------------------
+   Played when SARATHI comes online:
+     .anim-robot-online       → boot pop + green flash on status elements
+     .anim-robot-online-ring  → sonar ring, loops while online
+     .anim-robot-wake         → logo/avatar wake-up wiggle
+   ========================================================================== */
+
+@keyframes robot-online {
+    0% {
+        transform: scale(0.85);
+        opacity: 0.4;
+        box-shadow: 0 0 0 0 var(--clr-success-glow);
+        filter: saturate(0.4);
+    }
+    45% {
+        transform: scale(1.12);
+        opacity: 1;
+        box-shadow: 0 0 30px var(--clr-success-glow), 0 0 60px var(--clr-success-glow);
+        filter: saturate(1.4);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 12px var(--clr-success-glow);
+        filter: saturate(1);
+    }
+}
+
+@keyframes robot-online-ring {
+    0%   { box-shadow: 0 0 0 0    var(--clr-success-glow); }
+    70%  { box-shadow: 0 0 0 16px rgba(0, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0    rgba(0, 0, 0, 0); }
+}
+
+@keyframes robot-wake {
+    0%   { transform: rotate(0deg)  scale(1); }
+    20%  { transform: rotate(-10deg) scale(1.08); }
+    40%  { transform: rotate(8deg)   scale(1.1); }
+    60%  { transform: rotate(-5deg)  scale(1.06); }
+    80%  { transform: rotate(3deg)   scale(1.02); }
+    100% { transform: rotate(0deg)   scale(1); }
+}
+
+.anim-robot-online      { animation: robot-online 900ms var(--ease-spring) both; }
+.anim-robot-online-ring { animation: robot-online-ring 2s var(--ease-smooth) infinite 900ms; }
+.anim-robot-wake        { animation: robot-wake 800ms var(--ease-spring) both; }
+
+
+/* ==========================================================================
+   07. NOTIFICATION ANIMATIONS
+   --------------------------------------------------------------------------
+     .anim-bell-ring    → bell swings on new notification
+     .anim-badge-pop    → unread badge pops when count changes
+     .anim-toast-in/out → toast enter / exit
+     .anim-panel-in     → notification panel drop-in
+   ========================================================================== */
+
+@keyframes bell-ring {
+    0%   { transform: rotate(0); }
+    12%  { transform: rotate(18deg); }
+    24%  { transform: rotate(-16deg); }
+    36%  { transform: rotate(12deg); }
+    48%  { transform: rotate(-9deg); }
+    60%  { transform: rotate(6deg); }
+    72%  { transform: rotate(-3deg); }
+    100% { transform: rotate(0); }
+}
+
+@keyframes badge-pop {
+    0%   { transform: scale(0); }
+    60%  { transform: scale(1.35); }
+    100% { transform: scale(1); }
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateX(110%) scale(0.95); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes toast-out {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to   { opacity: 0; transform: translateX(110%) scale(0.95); }
+}
+
+@keyframes panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.anim-bell-ring { animation: bell-ring 900ms var(--ease-smooth); transform-origin: top center; }
+.anim-badge-pop { animation: badge-pop 420ms var(--ease-spring) both; }
+.anim-toast-in  { animation: toast-in  var(--dur-slow)   var(--ease-spring) both; }
+.anim-toast-out { animation: toast-out var(--dur-normal) var(--ease-smooth) both; }
+.anim-panel-in  { animation: panel-in  var(--dur-normal) var(--ease-smooth) both; }
+
+
+/* ==========================================================================
+   08. LOADING ANIMATIONS
+   --------------------------------------------------------------------------
+   Ready-made loader components — future JS only needs to inject
+   the element with the right class:
+
+     <span class="loader-spinner"></span>
+     <span class="loader-dots"><i></i><i></i><i></i></span>
+     <div  class="loader-bar"></div>
+     <div  class="loader-scanline">…content…</div>
+     <div  class="loader-skeleton"></div>
+   ========================================================================== */
+
+/* --- Spinner: neon orbital ring --- */
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loader-spinner {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--clr-border-strong);
+    border-top-color: var(--clr-cyan);
+    border-radius: 50%;
+    animation: spin 800ms linear infinite;
+    box-shadow: var(--glow-cyan);
+}
+
+.anim-spin { animation: spin 800ms linear infinite; }
+
+/* --- Dots: three bouncing telemetry dots --- */
+
+@keyframes dot-bounce {
+    0%, 80%, 100% { transform: translateY(0);   opacity: 0.4; }
+    40%           { transform: translateY(-7px); opacity: 1; }
+}
+
+.loader-dots {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: var(--sp-1);
+}
+
+.loader-dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--clr-cyan);
+    box-shadow: var(--glow-cyan);
+    animation: dot-bounce 1.2s var(--ease-smooth) infinite;
+}
+
+.loader-dots i:nth-child(2) { animation-delay: 0.15s; }
+.loader-dots i:nth-child(3) { animation-delay: 0.30s; }
+
+/* --- Bar: indeterminate progress sweep --- */
+
+@keyframes bar-sweep {
+    0%   { left: -35%; }
+    100% { left: 100%; }
+}
+
+.loader-bar {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    overflow: hidden;
+    border-radius: var(--radius-pill);
+    background: var(--clr-bg-elevated);
+}
+
+.loader-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -35%;
+    width: 35%;
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: var(--grad-accent);
+    box-shadow: var(--glow-cyan);
+    animation: bar-sweep 1.3s var(--ease-smooth) infinite;
+}
+
+/* --- Scanline: cyberpunk sweep over any container --- */
+
+@keyframes scanline {
+    0%   { top: -12%; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { top: 108%; opacity: 0; }
+}
+
+.loader-scanline {
+    position: relative;
+    overflow: hidden;
+}
+
+.loader-scanline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -12%;
+    height: 3px;
+    background: var(--grad-accent);
+    box-shadow: 0 0 18px var(--clr-cyan-glow), 0 0 36px var(--clr-cyan-glow);
+    animation: scanline 2.4s linear infinite;
+    pointer-events: none;
+}
+
+/* --- Skeleton: shimmering content placeholder --- */
+
+@keyframes skeleton-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.loader-skeleton {
+    min-height: 1em;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(90deg,
+        var(--clr-bg-elevated) 25%,
+        var(--clr-bg-highlight) 50%,
+        var(--clr-bg-elevated) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.6s linear infinite;
+}
+
+
+/* ==========================================================================
+   09. ATTENTION & FEEDBACK
+   --------------------------------------------------------------------------
+     .anim-shake     → invalid action / command rejected
+     .anim-blink     → recording / armed indicator
+     .anim-flicker   → cyberpunk neon-tube flicker (one-shot)
+   ========================================================================== */
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-7px); }
+    40%      { transform: translateX(6px); }
+    60%      { transform: translateX(-4px); }
+    80%      { transform: translateX(3px); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.15; }
+}
+
+@keyframes neon-flicker {
+    0%, 100% { opacity: 1; }
+    8%       { opacity: 0.4; }
+    12%      { opacity: 1; }
+    20%      { opacity: 0.6; }
+    24%      { opacity: 1; }
+    55%      { opacity: 0.8; }
+    60%      { opacity: 1; }
+}
+
+.anim-shake   { animation: shake 420ms var(--ease-smooth); }
+.anim-blink   { animation: blink 1s step-start infinite; }
+.anim-flicker { animation: neon-flicker 1.2s linear both; }
+
+
+/* ==========================================================================
+   10. STAGGER & PAGE-LOAD CHOREOGRAPHY
+   --------------------------------------------------------------------------
+   Add .anim-stagger to a container whose direct children carry an
+   entrance utility — children cascade in sequence.
+   The dashboard card grid gets an automatic entrance on load.
+   ========================================================================== */
+
+.anim-stagger > *:nth-child(1)  { animation-delay: 0ms; }
+.anim-stagger > *:nth-child(2)  { animation-delay: 60ms; }
+.anim-stagger > *:nth-child(3)  { animation-delay: 120ms; }
+.anim-stagger > *:nth-child(4)  { animation-delay: 180ms; }
+.anim-stagger > *:nth-child(5)  { animation-delay: 240ms; }
+.anim-stagger > *:nth-child(6)  { animation-delay: 300ms; }
+.anim-stagger > *:nth-child(7)  { animation-delay: 360ms; }
+.anim-stagger > *:nth-child(8)  { animation-delay: 420ms; }
+.anim-stagger > *:nth-child(9)  { animation-delay: 480ms; }
+.anim-stagger > *:nth-child(10) { animation-delay: 540ms; }
+.anim-stagger > *:nth-child(11) { animation-delay: 600ms; }
+.anim-stagger > *:nth-child(12) { animation-delay: 660ms; }
+.anim-stagger > *:nth-child(13) { animation-delay: 720ms; }
+.anim-stagger > *:nth-child(14) { animation-delay: 780ms; }
+
+/* --- Automatic page-load choreography (no JS required) --- */
+
+.app-header  { animation: slide-in-down var(--dur-slow) var(--ease-smooth) both; }
+.app-sidebar { animation: slide-in-left var(--dur-slow) var(--ease-smooth) 80ms both; }
+.page-intro  { animation: fade-in-up    var(--dur-slow) var(--ease-smooth) 120ms both; }
+.app-footer  { animation: fade-in       var(--dur-slow) var(--ease-smooth) 200ms both; }
+
+.card-grid .card {
+    animation: fade-in-up var(--dur-slow) var(--ease-smooth) both;
+}
+
+.card-grid .card:nth-child(1)  { animation-delay: 160ms; }
+.card-grid .card:nth-child(2)  { animation-delay: 220ms; }
+.card-grid .card:nth-child(3)  { animation-delay: 280ms; }
+.card-grid .card:nth-child(4)  { animation-delay: 340ms; }
+.card-grid .card:nth-child(5)  { animation-delay: 400ms; }
+.card-grid .card:nth-child(6)  { animation-delay: 460ms; }
+.card-grid .card:nth-child(7)  { animation-delay: 520ms; }
+.card-grid .card:nth-child(8)  { animation-delay: 580ms; }
+.card-grid .card:nth-child(9)  { animation-delay: 640ms; }
+.card-grid .card:nth-child(10) { animation-delay: 700ms; }
+.card-grid .card:nth-child(11) { animation-delay: 760ms; }
+.card-grid .card:nth-child(12) { animation-delay: 820ms; }
+.card-grid .card:nth-child(13) { animation-delay: 880ms; }
+.card-grid .card:nth-child(14) { animation-delay: 940ms; }
+
+
+/* ==========================================================================
+   11. REDUCED MOTION GUARD
+   --------------------------------------------------------------------------
+   style.css already zeroes all durations globally under
+   prefers-reduced-motion; this guard additionally kills infinite
+   loops introduced here so nothing keeps repainting.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .anim-breathe,
+    .anim-glow-cyan,
+    .anim-glow-primary,
+    .anim-glow-danger,
+    .anim-glow-text,
+    .anim-pulse,
+    .anim-pulse-soft,
+    .anim-pulse-ring,
+    .anim-robot-online-ring,
+    .anim-blink,
+    .anim-spin,
+    .loader-spinner,
+    .loader-dots i,
+    .loader-bar::after,
+    .loader-scanline::after,
+    .loader-skeleton {
+        animation: none !important;
+    }
+}

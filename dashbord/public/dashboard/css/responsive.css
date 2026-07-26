@@ -1,0 +1,791 @@
+/* ==========================================================================
+   MISSION CONTROL — SMART SURVEY ROBOT — responsive.css
+   --------------------------------------------------------------------------
+   Responsive architecture · Desktop-first cascade
+   Requires: css/variables.css + css/style.css
+   ==========================================================================
+
+   BREAKPOINT MAP
+   ┌────────────────────────┬──────────────────────┐
+   │ Ultra Wide Monitor     │ ≥ 1920px             │
+   │ Desktop (base styles)  │ 1441px – 1919px      │
+   │ Laptop                 │ ≤ 1440px             │
+   │ Small Laptop           │ ≤ 1200px             │
+   │ Tablet                 │ ≤ 1024px             │
+   │ Landscape Phone        │ ≤ 900px (landscape)  │
+   │ Mobile                 │ ≤ 768px              │
+   │ Portrait Phone         │ ≤ 480px              │
+   │ Compact Phone          │ ≤ 360px              │
+   └────────────────────────┴──────────────────────┘
+
+   TABLE OF CONTENTS
+   01. Ultra Wide Monitor      (≥ 1920px)
+   02. Laptop                  (≤ 1440px)
+   03. Small Laptop            (≤ 1200px)
+   04. Tablet                  (≤ 1024px)  — slim icon sidebar
+   05. Mobile                  (≤ 768px)   — off-canvas sidebar
+   06. Portrait Phone          (≤ 480px)
+   07. Compact Phone           (≤ 360px)
+   08. Landscape Phone         (≤ 900px landscape, short viewport)
+   09. Short Viewport Guard    (height ≤ 560px)
+   10. Touch Device Refinements
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. ULTRA WIDE MONITOR — ≥ 1920px
+   --------------------------------------------------------------------------
+   Scale up the mission-control feel: wider sidebar, larger type,
+   roomier cards, more columns.
+   ========================================================================== */
+
+@media (min-width: 1920px) {
+
+    :root {
+        --header-height: 80px;
+        --sidebar-width: 300px;
+        --card-min-width: 380px;
+        --content-max-width: 2200px;
+        --fs-base: 1rem;
+        --fs-md: 1.15rem;
+        --fs-lg: 1.4rem;
+        --fs-2xl: 2.5rem;
+    }
+
+    /* Frame the shell on very large displays */
+    .app-shell {
+        border-inline: 1px solid var(--clr-border);
+    }
+
+    .main-content {
+        padding: var(--sp-8);
+    }
+
+    .card-grid {
+        gap: var(--sp-6);
+    }
+
+    .card-placeholder {
+        min-height: 160px;
+    }
+
+    /* Larger tap/click targets on big screens */
+    .btn-icon {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+
+/* ==========================================================================
+   02. LAPTOP — ≤ 1440px
+   --------------------------------------------------------------------------
+   Slightly condensed layout; keep every header element visible.
+   ========================================================================== */
+
+@media (max-width: 1440px) {
+
+    :root {
+        --sidebar-width: 240px;
+        --card-min-width: 300px;
+    }
+
+    .main-content {
+        padding: var(--sp-5);
+    }
+
+    .card-grid {
+        gap: var(--sp-4);
+    }
+
+    .header-status-group {
+        gap: var(--sp-1);
+    }
+
+    .status-pill {
+        padding: var(--sp-1) var(--sp-2);
+    }
+}
+
+
+/* ==========================================================================
+   03. SMALL LAPTOP — ≤ 1200px
+   --------------------------------------------------------------------------
+   Header economy: drop pill text labels to icons + values,
+   hide the user meta text, tighten the clock.
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+
+    :root {
+        --card-min-width: 280px;
+    }
+
+    /* Status pills: icon + value only */
+    .status-pill-label {
+        display: none;
+    }
+
+    /* User profile: avatar only */
+    .user-meta,
+    .user-caret {
+        display: none;
+    }
+
+    .user-profile {
+        padding: var(--sp-1);
+        border-radius: 50%;
+    }
+
+    .header-clock {
+        padding-inline: var(--sp-3);
+    }
+
+    .page-title {
+        font-size: var(--fs-xl);
+    }
+}
+
+
+/* ==========================================================================
+   04. TABLET — ≤ 1024px
+   --------------------------------------------------------------------------
+   Sidebar collapses to a slim icon rail with tooltip-style labels
+   on hover. Two-column card grid.
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+
+    :root {
+        --header-height: 64px;
+        --card-min-width: 260px;
+    }
+
+    /* --- Slim icon-rail sidebar --- */
+
+    .app-shell {
+        grid-template-columns: var(--sidebar-width-slim) 1fr;
+    }
+
+    .app-sidebar {
+        padding: var(--sp-3) var(--sp-2);
+        overflow: visible;                 /* allow hover labels to escape */
+        overflow-y: auto;
+    }
+
+    .nav-group-title {
+        margin: var(--sp-3) auto var(--sp-1);
+        font-size: 0.58rem;
+        text-align: center;
+        letter-spacing: 0.08em;
+    }
+
+    .nav-link {
+        justify-content: center;
+        padding: var(--sp-3) var(--sp-2);
+    }
+
+    .nav-link:hover {
+        transform: none;                   /* no lateral slide in rail mode */
+    }
+
+    /* Hide text labels; icons carry navigation */
+    .nav-label {
+        position: absolute;
+        left: calc(100% + var(--sp-3));
+        top: 50%;
+        translate: 0 -50%;
+        z-index: var(--z-panel);
+        padding: var(--sp-2) var(--sp-3);
+        font-size: var(--fs-xs);
+        white-space: nowrap;
+        color: var(--clr-text-primary);
+        background: var(--glass-bg-strong);
+        -webkit-backdrop-filter: var(--glass-blur);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--clr-border-strong);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-md), var(--glow-primary);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--dur-fast) var(--ease-smooth);
+    }
+
+    .nav-link:hover .nav-label,
+    .nav-link:focus-visible .nav-label {
+        opacity: 1;
+    }
+
+    .nav-icon {
+        width: auto;
+        font-size: var(--fs-lg);
+    }
+
+    /* Hardware summary panel has no room in the rail */
+    .sidebar-footer {
+        display: none;
+    }
+
+    /* --- Header economy --- */
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .header-clock .header-date {
+        display: none;
+    }
+
+    /* --- Content --- */
+
+    .main-content {
+        padding: var(--sp-4);
+    }
+
+    .page-subtitle {
+        font-size: var(--fs-base);
+    }
+
+    .card-header,
+    .card-body {
+        padding-inline: var(--sp-4);
+    }
+}
+
+
+
+/* ==========================================================================
+   04.6. TABLET PORTRAIT (≤ 900px) — intermediate
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    .header-status-group .status-pill-label { display: none; }
+    .conn-stats { grid-template-columns: 1fr 1fr; }
+    .conn-stats > :nth-child(3) { grid-column: span 2; }
+}
+
+/* ==========================================================================
+   05. MOBILE — ≤ 768px
+   --------------------------------------------------------------------------
+   Sidebar becomes an off-canvas glass drawer (opened by the toggle
+   button via the future `is-open` class). Single-column cards.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    :root {
+        --header-height: 60px;
+        --footer-height: auto;
+        --fs-2xl: 1.7rem;
+        --fs-xl: 1.35rem;
+    }
+
+    /* --- Single-column shell; sidebar leaves the grid flow --- */
+
+    .app-shell {
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: var(--header-height) 1fr auto;
+    }
+
+    /* --- Off-canvas drawer sidebar (Instagram-style) --- */
+
+    .app-sidebar {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        bottom: 0;
+        z-index: var(--z-panel);
+        width: min(300px, 84vw);
+        height: auto;
+        padding: var(--sp-4) var(--sp-3);
+        background: var(--glass-bg-strong);
+        -webkit-backdrop-filter: var(--glass-blur-heavy);
+        backdrop-filter: var(--glass-blur-heavy);
+        border-right: 1px solid var(--clr-border-cyan);
+        box-shadow: var(--shadow-lg), 8px 0 32px rgba(0, 0, 0, 0.45);
+        transform: translateX(-105%);
+        transition:
+            transform var(--dur-slow) var(--ease-spring),
+            visibility 0s linear var(--dur-slow);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        visibility: hidden;
+    }
+
+    /* Drawer opened by JS toggling `is-open` */
+    .app-sidebar.is-open {
+        transform: translateX(0);
+        visibility: visible;
+        transition:
+            transform var(--dur-slow) var(--ease-spring),
+            visibility 0s;
+    }
+
+    /* Manual desktop-collapse class must never affect the drawer */
+    body.sidebar-collapsed .app-sidebar {
+        padding: var(--sp-4) var(--sp-3);
+    }
+
+    body.sidebar-collapsed .nav-label {
+        position: static;
+        translate: none;
+        padding: 0;
+        opacity: 1;
+        pointer-events: auto;
+        background: none;
+        border: none;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        font-size: var(--fs-base);
+        color: inherit;
+    }
+
+    body.sidebar-collapsed .nav-icon {
+        width: 22px;
+        font-size: var(--fs-md);
+    }
+
+    body.sidebar-collapsed .sidebar-footer {
+        display: block;
+    }
+
+    /* Restore full-width labelled nav inside the drawer */
+    .nav-link {
+        justify-content: flex-start;
+        padding: var(--sp-3);
+    }
+
+    .nav-label {
+        position: static;
+        translate: none;
+        padding: 0;
+        opacity: 1;
+        pointer-events: auto;
+        background: none;
+        border: none;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        font-size: var(--fs-base);
+        color: inherit;
+    }
+
+    .nav-icon {
+        width: 22px;
+        font-size: var(--fs-md);
+    }
+
+    .nav-group-title {
+        margin: var(--sp-4) var(--sp-3) var(--sp-2);
+        font-size: var(--fs-xs);
+        text-align: left;
+        letter-spacing: var(--ls-wider);
+    }
+
+    .sidebar-footer {
+        display: block;
+    }
+
+    /* --- Header: keep brand, clock, master link, actions --- */
+
+    .app-header {
+        gap: var(--sp-3);
+        padding-inline: var(--sp-3);
+    }
+
+    /* Individual pills hide; master connection indicator remains */
+    .status-pill {
+        display: none;
+    }
+
+    .header-clock {
+        display: none;
+    }
+
+    .connection-indicator {
+        padding: var(--sp-1) var(--sp-3);
+    }
+
+    .brand-logo {
+        width: 36px;
+        height: 36px;
+        font-size: var(--fs-md);
+    }
+
+    .brand-name {
+        font-size: var(--fs-md);
+    }
+
+    .btn-icon {
+        width: 38px;
+        height: 38px;
+        font-size: var(--fs-base);
+    }
+
+    /* --- Content & cards --- */
+
+    .main-content {
+        padding: var(--sp-4) var(--sp-3);
+    }
+
+    .page-intro {
+        margin-bottom: var(--sp-5);
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: var(--sp-4);
+    }
+
+    .card:hover {
+        transform: translateY(-3px);       /* gentler lift on small screens */
+    }
+
+    .card-placeholder {
+        min-height: 110px;
+    }
+
+    /* --- Footer stacks --- */
+
+    .app-footer {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--sp-2);
+        padding: var(--sp-4) var(--sp-3);
+        text-align: center;
+    }
+
+    .footer-left {
+        flex-direction: column;
+        gap: var(--sp-2);
+    }
+
+    /* --- Overlays --- */
+
+    .notification-panel {
+        right: var(--sp-3);
+        left: var(--sp-3);
+        width: auto;
+    }
+
+    .toast-container {
+        right: var(--sp-3);
+        left: var(--sp-3);
+        bottom: var(--sp-4);
+        align-items: stretch;
+    }
+}
+
+
+/* ==========================================================================
+   06. PORTRAIT PHONE — ≤ 480px
+   --------------------------------------------------------------------------
+   Tightest layout: compact header, full-bleed drawer, condensed cards,
+   full-width action buttons.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   04.5. LARGE PHONE (≤ 600px) — sits between 768 and 480
+   --------------------------------------------------------------------------
+   Keeps cards single-column but widens the touch targets one more
+   step before the compact-phone rules kick in at 480.
+   ========================================================================== */
+
+@media (max-width: 600px) {
+    .app-header  { gap: var(--sp-2); padding-inline: var(--sp-3); }
+    .brand-text  { display: none; }
+    .brand-logo  { width: 38px; height: 38px; font-size: var(--fs-base); }
+    .btn-icon    { width: 40px; height: 40px; }
+    .card        { border-radius: var(--radius-md); }
+    .card-header { padding: var(--sp-3); }
+    .card-body   { padding: var(--sp-3); }
+
+    .voice-meter      { max-width: 100%; }
+    .voice-mic-btn    { width: 84px; height: 84px; font-size: 1.8rem; }
+    .voice-match-row  { max-width: 100%; }
+    .voice-transcript { max-width: 100%; }
+    .voice-ref-chips  { max-width: 100%; }
+
+    .conn-row         { flex-direction: column; }
+    .conn-input       { flex: 1; }
+    .conn-input--port { flex: 1; }
+    .conn-actions     { flex-wrap: wrap; }
+    .conn-action      { flex: 1 1 calc(50% - 4px); }
+
+    .manual-dpad { max-width: 240px; gap: 6px; padding: 12px; }
+    .manual-btn  { font-size: 1.2rem; }
+
+    .app-footer { flex-direction: column; gap: var(--sp-2); text-align: center; }
+    .footer-left, .footer-links { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+
+    :root {
+        --header-height: 56px;
+        --fs-2xl: 1.45rem;
+        --fs-lg: 1.1rem;
+        --radius-lg: 16px;
+    }
+
+    .app-header {
+        gap: var(--sp-2);
+        padding-inline: var(--sp-2);
+    }
+
+    /* Master link indicator shrinks to dot only */
+    .connection-indicator .connection-text {
+        display: none;
+    }
+
+    .connection-indicator {
+        padding: var(--sp-2);
+        border-radius: 50%;
+    }
+
+    /* Drawer covers most of the viewport */
+    .app-sidebar {
+        width: min(320px, 92vw);
+    }
+
+    .main-content {
+        padding: var(--sp-3) var(--sp-2);
+    }
+
+    .page-subtitle {
+        font-size: var(--fs-sm);
+    }
+
+    .card-header {
+        flex-wrap: wrap;
+        gap: var(--sp-2);
+        padding: var(--sp-3);
+    }
+
+    .card-body {
+        padding: var(--sp-3);
+        gap: var(--sp-3);
+    }
+
+    .card-footer {
+        padding: var(--sp-2) var(--sp-3);
+    }
+
+    .card-title {
+        font-size: var(--fs-base);
+    }
+
+    .card-icon {
+        width: 30px;
+        height: 30px;
+        font-size: var(--fs-sm);
+    }
+
+    .card-placeholder {
+        min-height: 96px;
+        padding: var(--sp-4);
+    }
+
+    .placeholder-icon {
+        font-size: var(--fs-lg);
+    }
+
+    /* Buttons become full-width for thumb reach */
+    .btn {
+        width: 100%;
+        padding: var(--sp-3) var(--sp-4);
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+
+/* ==========================================================================
+   07. COMPACT PHONE — ≤ 360px
+   --------------------------------------------------------------------------
+   Survival mode for the smallest handsets.
+   ========================================================================== */
+
+@media (max-width: 360px) {
+
+    .brand-name {
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+    }
+
+    .header-actions {
+        gap: var(--sp-1);
+    }
+
+    .user-profile {
+        display: none;                     /* reclaim header space */
+    }
+
+    .btn-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .status-pill,
+    .connection-indicator {
+        font-size: 0.62rem;
+    }
+}
+
+
+/* ==========================================================================
+   08. LANDSCAPE PHONE — ≤ 900px width in landscape orientation
+   --------------------------------------------------------------------------
+   Wide but very short viewport: compress vertical rhythm and use
+   two card columns to exploit the width.
+   ========================================================================== */
+
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+
+    :root {
+        --header-height: 52px;
+        --sp-6: 1.25rem;
+    }
+
+    .app-shell {
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: var(--header-height) 1fr auto;
+    }
+
+    /* Off-canvas drawer (same pattern as mobile) */
+    .app-sidebar {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        bottom: 0;
+        z-index: var(--z-panel);
+        width: 260px;
+        transform: translateX(-105%);
+        transition: transform var(--dur-slow) var(--ease-smooth);
+        background: var(--glass-bg-strong);
+        border-right: 1px solid var(--clr-border-strong);
+        overflow-y: auto;
+    }
+
+    .app-sidebar.is-open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        padding: var(--sp-3);
+    }
+
+    .page-intro {
+        margin-bottom: var(--sp-3);
+    }
+
+    .page-title {
+        font-size: var(--fs-lg);
+    }
+
+    .page-subtitle {
+        display: none;                     /* save vertical space */
+    }
+
+    /* Two columns to use the landscape width */
+    .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-3);
+    }
+
+    .card-placeholder {
+        min-height: 80px;
+    }
+
+    .app-footer {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: var(--sp-2) var(--sp-3);
+    }
+}
+
+
+/* ==========================================================================
+   09. SHORT VIEWPORT GUARD — height ≤ 560px (any width)
+   --------------------------------------------------------------------------
+   Prevents sticky header + sidebar math from breaking on short screens.
+   ========================================================================== */
+
+@media (max-height: 560px) and (min-width: 769px) {
+
+    .app-sidebar {
+        position: static;
+        height: auto;
+        max-height: none;
+    }
+
+    .page-intro {
+        margin-bottom: var(--sp-4);
+    }
+}
+
+
+/* ==========================================================================
+   10. TOUCH DEVICE REFINEMENTS
+   --------------------------------------------------------------------------
+   No hover on touch: neutralize lift effects, enlarge hit areas,
+   and rely on :active feedback instead.
+   ========================================================================== */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .card:hover,
+    .btn-icon:hover,
+    .btn:hover,
+    .user-profile:hover,
+    .footer-link:hover,
+    .status-pill:hover {
+        transform: none;
+    }
+
+    .nav-link:hover {
+        transform: none;
+        background: transparent;
+        border-color: transparent;
+    }
+
+    /* Active-state press feedback replaces hover glow */
+    .card:active {
+        border-color: var(--clr-border-strong);
+        box-shadow: var(--shadow-card-hover);
+    }
+
+    .btn-icon:active,
+    .btn:active {
+        transform: scale(0.95);
+        box-shadow: var(--glow-cyan);
+    }
+
+    .nav-link:active {
+        background: var(--grad-accent-soft);
+    }
+
+    /* WCAG-friendly minimum touch targets */
+    .btn-icon {
+        min-width: 42px;
+        min-height: 42px;
+    }
+
+    .nav-link {
+        min-height: 46px;
+    }
+}
